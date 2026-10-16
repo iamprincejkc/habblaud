@@ -574,13 +574,14 @@ describe('legibilidade das mesas, sofá e olhos', () => {
 
 describe('pisos e paredes', () => {
   const floors: FloorKind[] = ['carpet', 'wood', 'tile_check', 'tile_white', 'concrete', 'marble', 'grass', 'sidewalk', 'street'];
+  // 18 blocos inteiros pixel a pixel: ~2 s sozinho, e passava dos 5 s padrão com a suíte toda rodando em paralelo.
   it('blocos de piso são opacos e determinísticos', () => {
     for (const k of floors) {
       const a = floorChunk(k, 2, -1, { seed: 3, tint: '#c9d1dc', tint2: '#bdc6d3' });
       expect(a.countOpaque(), k).toBe(CHUNK_PX * CHUNK_PX);
       expect(floorChunk(k, 2, -1, { seed: 3, tint: '#c9d1dc', tint2: '#bdc6d3' }).data).toEqual(a.data);
     }
-  });
+  }, 20_000);
 
   it('a madeira continua entre blocos vizinhos (sem emenda na borda)', () => {
     const left = floorChunk('wood', 0, 0, { seed: 1 });
