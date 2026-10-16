@@ -39,6 +39,7 @@ import { homedir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { discoverClaudeDirs, expandHome, isDefaultDir } from '../server/accounts/detect';
+import { resolveExecutable } from '../server/claude-bin';
 import { LEGACY_NAME } from '../server/legacy';
 import { DEFAULT_PORT, installedHook, planUninstall as planHookUninstall } from './hooks-install';
 import {
@@ -97,8 +98,10 @@ export type ClaudeRunner = (args: string[], env: NodeJS.ProcessEnv) => ClaudeRes
 
 /** O runner de verdade. stdin fechado: nada fica esperando uma resposta no terminal. */
 export function makeClaudeRunner(cmd = 'claude'): ClaudeRunner {
+  // No Windows o `claude` do PATH é o shim claude.cmd do npm, que o spawnSync não acha nem roda sem shell.
+  const bin = resolveExecutable(cmd) ?? cmd;
   return (args, env) => {
-    const r = spawnSync(cmd, args, { env, encoding: 'utf8', timeout: CLI_TIMEOUT_MS, stdio: ['ignore', 'pipe', 'pipe'] });
+    const r = spawnSync(bin, args, { env, encoding: 'utf8', timeout: CLI_TIMEOUT_MS, stdio: ['ignore', 'pipe', 'pipe'] });
     if (r.error) {
       const code = (r.error as NodeJS.ErrnoException).code;
       const error = code === 'ENOENT' ? tr('o comando "{0}" não foi encontrado no PATH', [cmd]) : code === 'ETIMEDOUT' ? tr('"{0} {1}" não terminou em {2} s', [cmd, args.join(' '), CLI_TIMEOUT_MS / 1000]) : r.error.message;

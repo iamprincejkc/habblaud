@@ -2,8 +2,9 @@ import { EventEmitter } from 'node:events';
 import { chmodSync, mkdirSync, mkdtempSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
+import { resolveExecutable, unwrapNpmShim } from '../claude-bin';
 import { ptyRequestProblem } from '../http/pty';
 import {
   claudeBinFrom,
@@ -361,6 +362,29 @@ describe('carregar o node-pty e achar o claude', () => {
       expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: join(a, 'claude') })).toBe(join(a, 'claude'));
       expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: 'claude' })).toBe(join(b, 'claude'));
       expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: 'outro' })).toBeUndefined();
+    }),
+  );
+
+  it(
+    'Windows: o shim claude.cmd do npm vira o claude.exe que ele chama; um .cmd que não chama .exe fica como está',
+    withDir((dir) => {
+      const exe = join(dir, 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe');
+      mkdirSync(dirname(exe), { recursive: true });
+      writeFileSync(exe, '');
+      // O shim que o npm grava (cmd-shim), como está em %APPDATA%\npm\claude.cmd.
+      writeFileSync(
+        join(dir, 'claude.cmd'),
+        '@ECHO off\r\nGOTO start\r\n:find_dp0\r\nSET dp0=%~dp0\r\nEXIT /b\r\n:start\r\nSETLOCAL\r\nCALL :find_dp0\r\n"%dp0%\\node_modules\\@anthropic-ai\\claude-code\\bin\\claude.exe"   %*\r\n',
+      );
+      writeFileSync(join(dir, 'outro.cmd'), '@ECHO off\r\nnode "%~dp0\\outro.js" %*\r\n');
+      const env = { PATH: dir, PATHEXT: '.COM;.EXE;.BAT;.CMD' };
+      expect(claudeBinFrom(env, 'win32')).toBe(exe);
+      expect(claudeBinFrom({ ...env, HABBLAUD_CLAUDE_BIN: join(dir, 'claude.cmd') }, 'win32')).toBe(exe);
+      expect(resolveExecutable('outro', env, 'win32')).toBe(join(dir, 'outro.cmd'));
+      // Fora do Windows nada muda; e um shim cujo .exe sumiu fica como está.
+      expect(unwrapNpmShim(join(dir, 'claude.cmd'), 'linux')).toBe(join(dir, 'claude.cmd'));
+      rmSync(exe);
+      expect(claudeBinFrom(env, 'win32')).toBe(join(dir, 'claude.cmd'));
     }),
   );
 });
