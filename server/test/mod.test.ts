@@ -7,6 +7,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import { delimiter, dirname, join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { hookCommand, hookEntry, STATUS_MESSAGE } from '../../scripts/hooks-install';
+import { EN } from '../../shared/locales/en';
 import { MAX_TIMEOUT_MS } from '../permissions/registry';
 import { posixShell } from './fixtures';
 
@@ -106,7 +107,8 @@ describe('plugin habblaud-permissoes', () => {
     expect(hooks[0]).toEqual({
       event: 'PermissionRequest',
       matcher: '*',
-      hook: { type: 'command', command: 'node "${CLAUDE_PLUGIN_ROOT}/hooks/permission-hook.mjs"', timeout: installed.timeout, statusMessage: STATUS_MESSAGE },
+      // O hooks.json do plugin é estático e, nesta cópia, em inglês: a mesma mensagem que o instalador grava em inglês.
+      hook: { type: 'command', command: 'node "${CLAUDE_PLUGIN_ROOT}/hooks/permission-hook.mjs"', timeout: installed.timeout, statusMessage: EN[STATUS_MESSAGE] },
     });
   });
 
