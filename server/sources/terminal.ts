@@ -691,7 +691,7 @@ class Parser implements TerminalParser {
         }
         case 'tool_use':
         case 'server_tool_use': {
-          const name = str(b.name) ?? 'ferramenta';
+          const name = str(b.name) ?? 'tool';
           const view = toolView(name, rec(b.input) ?? {}, c.cwd);
           const e: ToolEntry = { kind: 'tool', id: str(b.id) ?? id, at: c.at, tool: name, title: maskSecrets(view.title) };
           if (view.input) {

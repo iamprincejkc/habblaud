@@ -315,7 +315,7 @@ export class DeliveryIndex {
     t.captures.forEach((c, i) => {
       const aid = shortId(`${id}|capture|${i}`);
       const ext = c.type.split('/')[1] === 'jpeg' ? 'jpg' : c.type.split('/')[1];
-      const name = `tela-${i + 1}.${ext}`;
+      const name = `screenshot-${i + 1}.${ext}`;
       files.set(aid, { kind: 'capture', type: c.type, data: Buffer.from(c.data, 'base64'), name });
       attachments.push({ id: aid, name, kind: 'image', caption: tr('Tela capturada pelo agente'), capture: true });
     });

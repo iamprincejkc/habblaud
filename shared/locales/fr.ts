@@ -2159,7 +2159,7 @@ export const FR: Readonly<Record<string, string>> = {
   "Natal": "Noël",
   "Halloween": "Halloween",
   "Automático: Halloween em outubro e Natal de 1º de novembro a 26 de dezembro; no resto do ano, o visual original. Nenhum: sempre o original.": "Automatique : Halloween en octobre et Noël du 1er novembre au 26 décembre ; le reste de l'année, l'apparence d'origine. Aucun : toujours l'original.",
-  "Os textos das atividades vêm do servidor: seguem HABBLAUD_LANG ou o idioma do sistema onde o Habblaud roda (o inglês, só com HABBLAUD_LANG=en).": "Les textes d'activité viennent du serveur : ils suivent HABBLAUD_LANG ou la langue du système où tourne Habblaud (l'anglais, seulement avec HABBLAUD_LANG=en).",
+  "Os textos das atividades vêm do servidor: seguem HABBLAUD_LANG ou o idioma do sistema onde o Habblaud roda (sem nenhum dos dois, o inglês).": "Les textes d'activité viennent du serveur : ils suivent HABBLAUD_LANG ou la langue du système où tourne Habblaud (à défaut, l'anglais).",
   "Aparência": "Apparence",
 
   // client/src/ui/sidebar.ts
@@ -2599,4 +2599,12 @@ export const FR: Readonly<Record<string, string>> = {
   "Acesso pelo celular": "Accès depuis le téléphone",
   "Sair deste aparelho": "Se déconnecter de cet appareil",
   "Encerra o login aqui (uma cópia do cookie também deixa de valer). Para voltar, entre com usuário e senha.": "Met fin à la connexion ici (une copie du cookie cesse aussi de fonctionner). Pour revenir, connectez-vous avec votre nom d'utilisateur et votre mot de passe.",
+  "{0} em {1}": "{0} dans {1}",
+  "Não combina com este cabelo": "Ne va pas avec cette coiffure",
+  "Não combina com o boné ou o gorro": "Ne va pas avec la casquette ou le bonnet",
+  "Não combina com o laço": "Ne va pas avec le nœud",
+  "{0}º": "{0}e",
+  "{0} e {1}": "{0} et {1}",
+  " com {0}": " avec {0}",
+  " · verificado {0}": " · vérifié {0}",
 };

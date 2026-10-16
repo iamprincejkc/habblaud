@@ -105,10 +105,10 @@ export function groupSessionsByDay(list: readonly RecentSession[], now: number):
   return [...days.values()].sort((a, b) => b.key - a.key);
 }
 
-/** Tamanho do transcript para a dica: "820 KB", "3,4 MB". */
+/** Tamanho do transcript para a dica: "820 KB", "3,4 MB" (o separador decimal segue o idioma). */
 export function formatSize(bytes: number): string {
   if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1).replace('.', ',')} MB`;
+  return `${new Intl.NumberFormat(intlLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(bytes / (1024 * 1024))} MB`;
 }
 
 // ---------------------------------------------------------------- popover
@@ -291,7 +291,7 @@ export class HistoryPopover implements UiComponent {
     setHidden(this.retryBtn, this.state !== 'error');
     setText(
       this.footEl,
-      this.sessions.length ? (q ? `${shown.length} de ${plural(this.sessions.length, tr('sessão'), tr('sessões'))}` : plural(this.sessions.length, tr('sessão'), tr('sessões'))) : '',
+      this.sessions.length ? (q ? tr('{0} de {1}', [shown.length, plural(this.sessions.length, tr('sessão'), tr('sessões'))]) : plural(this.sessions.length, tr('sessão'), tr('sessões'))) : '',
     );
     setHidden(this.footEl, !this.sessions.length);
 

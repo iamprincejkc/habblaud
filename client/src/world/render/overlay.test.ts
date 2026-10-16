@@ -1,5 +1,6 @@
 // Regras puras da camada de texto do mundo (balões e enquadramento).
 import { describe, expect, it } from 'vitest';
+import { setLocale } from '../../../../shared/i18n';
 import { overviewFrame } from '../camera';
 import { rationBubbles, waitBubbleText } from './overlay';
 
@@ -9,6 +10,17 @@ describe('balões', () => {
     expect(waitBubbleText('Precisa de você: escolher uma opção')).toBe('Escolher uma opção');
     expect(waitBubbleText(undefined)).toBe('Responder no terminal');
     expect(waitBubbleText('   ')).toBe('Responder no terminal');
+  });
+
+  it('espera em inglês: o prefixo traduzido também sai', () => {
+    setLocale('en');
+    try {
+      expect(waitBubbleText('Needs you: choose an option')).toBe('Choose an option');
+      expect(waitBubbleText('approve a permission')).toBe('Approve a permission');
+      expect(waitBubbleText(undefined)).toBe('Answer in terminal');
+    } finally {
+      setLocale('pt-BR');
+    }
   });
 
   it('visão geral: no máximo 1 balão com texto por área e 4 na tela (mais recentes primeiro)', () => {

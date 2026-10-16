@@ -3,7 +3,7 @@
 // (GET /api/spawn/folders: histórico de sessões + salas), para escolher com um toque; "Outra pasta" aceita um caminho
 // digitado. O pedido pode levar anexos (POST /api/spawn/attachments, um por arquivo, antes do pedido) e ser ditado
 // (ui/dictation.ts, Whisper local no Mac). Pasta que o Claude Code não conhece cai no app (Enter lá).
-import { tr } from '../../../shared/i18n';
+import { intlLocale, tr } from '../../../shared/i18n';
 import { isDemoId } from '../../../shared/timeline';
 import type { OfficeSnapshot } from '../../../shared/types';
 import type { UiContext } from './context';
@@ -68,7 +68,7 @@ export function ago(at: number, now = Date.now()): string {
 export function formatBytes(n: number): string {
   if (n < 1024) return `${n} B`;
   if (n < 1024 * 1024) return `${Math.round(n / 1024)} KB`;
-  return `${(n / 1024 / 1024).toFixed(1).replace('.', ',')} MB`;
+  return `${new Intl.NumberFormat(intlLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(n / 1024 / 1024)} MB`;
 }
 
 function fileToBase64(file: Blob): Promise<string> {
@@ -139,7 +139,7 @@ export class SpawnPanel {
       class: 'ui-rename__input ui-spawn__path',
       type: 'text',
       hidden: true,
-      attrs: { id: 'ui-spawn-folder', placeholder: '/Users/voce/projeto', spellcheck: 'false', autocomplete: 'off', autocapitalize: 'none', 'aria-label': tr('Caminho da pasta') },
+      attrs: { id: 'ui-spawn-folder', placeholder: 'C:\\Users\\you\\project', spellcheck: 'false', autocomplete: 'off', autocapitalize: 'none', 'aria-label': tr('Caminho da pasta') },
     });
     this.prompt = h('textarea', {
       class: 'ui-rename__input ui-spawn__prompt',

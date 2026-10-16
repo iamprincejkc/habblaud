@@ -157,9 +157,12 @@ export function headIconLift(ch: Pick<Character, 'mode' | 'icon'>): number {
   return ch.mode === 'wait' || ch.mode === 'shell' || ch.icon ? 13 : 0;
 }
 
-/** Texto do balão de espera: só o motivo (o amarelo e o ✋ já dizem "precisa de você"). */
+/** Texto do balão de espera: só o motivo (o amarelo e o ✋ já dizem "precisa de você", em qualquer idioma). */
 export function waitBubbleText(waitingFor: string | undefined): string {
-  const why = (waitingFor ?? '').trim().replace(/^precisa de você:?\s*/i, '');
+  let why = (waitingFor ?? '').trim();
+  for (const prefix of new Set(['precisa de você', tr('precisa de você')])) {
+    if (why.toLowerCase().startsWith(prefix.toLowerCase())) why = why.slice(prefix.length).replace(/^:?\s*/, '');
+  }
   return why ? why.charAt(0).toUpperCase() + why.slice(1) : tr('Responder no terminal');
 }
 

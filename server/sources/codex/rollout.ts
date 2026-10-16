@@ -758,7 +758,7 @@ class RolloutLineParser {
       case 'DynamicToolCall': {
         this.sawPaginated();
         this.done(id);
-        const { desc, tool } = describeCodexTool(str(item.tool) ?? 'ferramenta', rec(item.arguments) ?? {}, str(item.namespace));
+        const { desc, tool } = describeCodexTool(str(item.tool) ?? 'tool', rec(item.arguments) ?? {}, str(item.namespace));
         this.push(desc, { key: id, tool, callId: id });
         return;
       }
@@ -843,7 +843,7 @@ class RolloutLineParser {
       case 'function_call':
       case 'custom_tool_call': {
         const callId = str(p.call_id) ?? str(p.id);
-        const name = str(p.name) ?? 'ferramenta';
+        const name = str(p.name) ?? 'tool';
         const input = p.type === 'custom_tool_call' ? { input: p.input, command: p.input } : parseArguments(p.arguments);
         if (callId) {
           this.s.pending.set(callId, name);
