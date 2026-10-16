@@ -11,6 +11,11 @@
 
 <p align="center"><b>English</b> · <a href="README.pt-BR.md">Português</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a></p>
 
+> **About this fork.** This is a fork of [marmottajr/habblaud](https://github.com/marmottajr/habblaud) (MIT), based on 0.11.0.
+> It defaults to English everywhere: the server, the install scripts, the Claude Code add-on in `mod/` (hard-coded English here), demo mode, and strings that upstream did not route through `tr()`.
+> It also runs cleanly on Windows: `npm run mod:install` resolves npm's `claude.cmd` shim, `.gitattributes` keeps LF line endings, and `npm start` reads `.env`.
+> Everything else, including this README, is upstream's.
+
 <p align="center">
   <img alt="Node.js 22.12+" src="https://img.shields.io/badge/node-%E2%89%A522.12-5fa04e?logo=node.js&logoColor=white" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-7-3178c6?logo=typescript&logoColor=white" />
