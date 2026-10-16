@@ -34,11 +34,11 @@ interface DemoProject {
   greps: string[];
 }
 
-const ROOT = '/Users/dev/projetos';
+const ROOT = '/Users/dev/projects';
 
 const PROJECTS: DemoProject[] = [
   {
-    name: 'loja-virtual',
+    name: 'online-store',
     files: ['src/pages/Checkout.tsx', 'src/components/Cart.tsx', 'src/api/orders.ts', 'src/hooks/useCart.ts', 'src/styles/theme.css', 'tests/cart.test.ts', 'package.json'],
     prompts: [tr('Cria a página de checkout com resumo do pedido'), tr('O total do carrinho não atualiza ao remover item'), tr('Adiciona cupom de desconto no checkout'), tr('Melhora o layout mobile da vitrine')],
     tasks: [tr('Criar página de checkout'), tr('Validar formulário de endereço'), tr('Integrar cálculo de frete'), tr('Escrever testes do carrinho'), tr('Ajustar layout mobile')],
@@ -47,7 +47,7 @@ const PROJECTS: DemoProject[] = [
     greps: ['useCart', 'calculateTotal', 'TODO'],
   },
   {
-    name: 'api-pagamentos',
+    name: 'payments-api',
     files: ['src/routes/payments.ts', 'src/services/pix.ts', 'src/db/migrations/004_refunds.sql', 'src/middleware/auth.ts', 'tests/pix.test.ts', 'docker-compose.yml'],
     prompts: [tr('Implementa estorno de pagamentos via Pix'), tr('Os webhooks estão duplicando cobranças, investiga'), tr('Adiciona rate limit nas rotas públicas')],
     tasks: [tr('Mapear fluxo de estorno'), tr('Criar migration de refunds'), tr('Implementar rota POST /refunds'), tr('Idempotência nos webhooks'), tr('Cobrir com testes')],
@@ -56,7 +56,7 @@ const PROJECTS: DemoProject[] = [
     greps: ['webhook', 'idempotencyKey', 'refund'],
   },
   {
-    name: 'app-mobile',
+    name: 'mobile-app',
     files: ['app/screens/Home.tsx', 'app/screens/Profile.tsx', 'app/navigation/index.tsx', 'app/services/api.ts', 'app.json'],
     prompts: [tr('Cria a tela de perfil com foto e edição'), tr('A navegação trava ao voltar da tela de detalhes'), tr('Adiciona modo escuro no app')],
     tasks: [tr('Criar tela de perfil'), tr('Upload de foto'), tr('Corrigir navegação'), tr('Tema escuro')],
@@ -74,8 +74,8 @@ const PROJECTS: DemoProject[] = [
     greps: ['tz_localize', 'drop_duplicates'],
   },
   {
-    name: 'site-institucional',
-    files: ['src/pages/index.astro', 'src/components/Hero.astro', 'src/content/blog/lancamento.md', 'astro.config.mjs', 'public/robots.txt'],
+    name: 'company-site',
+    files: ['src/pages/index.astro', 'src/components/Hero.astro', 'src/content/blog/launch.md', 'astro.config.mjs', 'public/robots.txt'],
     prompts: [tr('Cria a seção de depoimentos na home'), tr('Melhora o SEO das páginas do blog'), tr('Adiciona formulário de contato')],
     tasks: [tr('Seção de depoimentos'), tr('Meta tags do blog'), 'Sitemap', tr('Formulário de contato')],
     queries: ['astro sitemap integration', 'schema.org organization json-ld'],
@@ -83,7 +83,7 @@ const PROJECTS: DemoProject[] = [
     greps: ['<meta', 'description'],
   },
   {
-    name: 'chatbot-suporte',
+    name: 'support-chatbot',
     files: ['bot/handlers/faq.ts', 'bot/llm/prompt.ts', 'bot/integrations/zendesk.ts', 'bot/index.ts', 'tests/faq.test.ts'],
     prompts: [tr('O bot não está encaminhando para humano'), tr('Adiciona integração com o Zendesk'), tr('Melhora o prompt para respostas mais curtas')],
     tasks: [tr('Regra de escalonamento'), tr('Cliente Zendesk'), tr('Ajustar prompt'), tr('Testes de conversa')],
@@ -145,8 +145,8 @@ type DemoAccount = Omit<AccountInfo, 'sessions' | 'usage' | 'usageStatus'>;
 // No ?mock=1 as contas imitam o cenário real (C e D no Claude Code, mais uma do Codex). Misturado aos dados reais
 // no servidor (idPrefix), o demo usa contas próprias, inconfundíveis com as de verdade.
 const DEMO_ACCOUNTS: DemoAccount[] = [
-  { id: '.claude', short: 'C', name: 'Conta C', email: 'dev@empresa.example', organization: tr('Empresa'), plan: 'Max', color: '#f08a3c', configDir: '~/.claude' },
-  { id: '.claude-conta2', short: 'D', name: 'Conta D', email: 'dev@pessoal.example', plan: 'Max', color: '#4aa8e8', configDir: '~/.claude-conta2' },
+  { id: '.claude', short: 'C', name: 'Account C', email: 'dev@company.example', organization: tr('Empresa'), plan: 'Max', color: '#f08a3c', configDir: '~/.claude' },
+  { id: '.claude-conta2', short: 'D', name: 'Account D', email: 'dev@personal.example', plan: 'Max', color: '#4aa8e8', configDir: '~/.claude-conta2' },
 ];
 /** Conta do Codex (um CODEX_HOME): sem e-mail (o Habblaud não lê credenciais), com o plano dos `rate_limits`. */
 const DEMO_CODEX_ACCOUNT: DemoAccount = { id: '.codex', provider: 'codex', short: 'X', name: 'Codex', plan: 'Team', color: '#a77bf3', configDir: '~/.codex' };

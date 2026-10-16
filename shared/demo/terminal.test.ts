@@ -4,7 +4,7 @@ import { describePrompt, describeTool, SPECIAL, type ActivityDescription } from 
 import { DemoSimulator } from './simulator';
 import { demoTerminalEntries } from './terminal';
 
-const ROOT = '/Users/dev/projetos/loja-virtual';
+const ROOT = '/Users/dev/projects/online-store';
 const T0 = 1_000_000;
 
 function agent(over: Partial<AgentInfo> = {}): AgentInfo {
